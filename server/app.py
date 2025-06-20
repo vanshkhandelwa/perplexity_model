@@ -1,6 +1,6 @@
 from typing import TypedDict, Annotated, Optional
 from langgraph.graph import add_messages, StateGraph, END
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, AIMessageChunk, ToolMessage
 from dotenv import load_dotenv
 from langchain_community.tools.tavily_search import TavilySearchResults
@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import json
 from uuid import uuid4
 from langgraph.checkpoint.memory import MemorySaver
+import os
 
 load_dotenv()
 
@@ -25,7 +26,10 @@ search_tool = TavilySearchResults(
 
 tools = [search_tool]
 
-llm = ChatOpenAI(model="gpt-4o")
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash",
+    google_api_key=os.getenv("GOOGLE_API_KEY")
+)
 
 llm_with_tools = llm.bind_tools(tools=tools)
 
