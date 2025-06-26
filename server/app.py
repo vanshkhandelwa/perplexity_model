@@ -94,11 +94,15 @@ app = FastAPI()
 # Add CORS middleware with settings that match frontend requirements
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=[
+        "http://localhost:3000",
+        "https://perplexity-model-1.netlify.app",
+        "https://perplexity-model-1.onrender.com"
+    ],  # Add your Netlify domain here if different
     allow_credentials=True,
-    allow_methods=["*"],  
-    allow_headers=["*"], 
-    expose_headers=["Content-Type"], 
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["Content-Type"],
 )
 
 def serialise_ai_message_chunk(chunk): 
