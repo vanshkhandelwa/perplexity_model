@@ -190,6 +190,19 @@ async def generate_chat_responses(message: str, checkpoint_id: Optional[str] = N
     # Send an end event
     yield f"data: {{\"type\": \"end\"}}\n\n"
 
+@app.get("/")
+async def root():
+    return {"message": "Perplexity Model API is running!", "status": "healthy"}
+
+@app.get("/health")
+async def health_check():
+    return {
+        "status": "healthy",
+        "google_api_key": "✅ Set" if os.getenv("GOOGLE_API_KEY") else "❌ Missing",
+        "tavily_api_key": "✅ Set" if os.getenv("TAVILY_API_KEY") else "❌ Missing",
+        "timestamp": json.dumps(str(uuid4()))
+    }
+
 @app.get("/chat_stream/{message}")
 async def chat_stream(message: str, checkpoint_id: Optional[str] = Query(None)):
     return StreamingResponse(
