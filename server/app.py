@@ -22,6 +22,7 @@ class State(TypedDict):
 
 search_tool = TavilySearchResults(
     max_results=4,
+    api_key=os.getenv("TAVILY_API_KEY")
 )
 
 tools = [search_tool]
